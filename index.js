@@ -36,7 +36,7 @@ app.use(express.static('public')) //Node carga las vistas, imagenes, etc
 //Routing
 app.use('/auth',usuarioRoutes); //Use busca todas las rutas que inicien con una diagonal, a excepcion de get que busca una ruta especifica
 app.use('/',propiedadesRoutes)
-
+ 
 //Definir un puerto y arrancar el proyecto
 const port = process.env.PORT || 3000;
 

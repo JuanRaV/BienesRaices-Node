@@ -74,13 +74,68 @@ const guardar = async (req,res)=>{
     }
 }
 const agregarImagen=async(req,res)=>{
+    const{id} = req.params
+    //validar que la propiedad existe
+    const propiedad = await Propiedad.findByPk(id)
+    if(!propiedad)
+        return res.redirect('/mis-propiedades')
+    
+    //Validar que la propiedad no esta publicada
+    if(propiedad.publicado )
+        return res.redirect('/mis-propiedades')
+    
+    //Validar que la propiedad pertenece a quien visita esta pagina
+    if(req.usuario.id.toString() !== propiedad.usuarioId.toString())
+        return res.redirect('/mis-propiedades')
+    
+    
     res.render('propiedades/agregar-imagen',{
-        pagina:"Agregar Imagen"
+        pagina:`Agregar Imagen ${propiedad.titulo}:`,
+        propiedad,
+        csrfToken:req.csrfToken()
     })
+}
+
+const almacenarImagen = async(req,res,next)=>{
+    const{id} = req.params
+    //validar que la propiedad existe
+    const propiedad = await Propiedad.findByPk(id)
+    if(!propiedad)
+        return res.redirect('/mis-propiedades')
+    
+    //Validar que la propiedad no esta publicada
+    if(propiedad.publicado )
+        return res.redirect('/mis-propiedades')
+    
+    //Validar que la propiedad pertenece a quien visita esta pagina
+    if(req.usuario.id.toString() !== propiedad.usuarioId.toString())
+        return res.redirect('/mis-propiedades')
+    
+    
+    res.render('propiedades/agregar-imagen',{
+        pagina:`Agregar Imagen ${propiedad.titulo}:`,
+        propiedad,
+        csrfToken:req.csrfToken()
+    })
+    
+    try {
+        //Almacenar la imagen y publicar propiedad
+        const image = req.file.filename
+        propiedad.imagen = image
+        propiedad.publicado = 1
+
+        await propiedad.save()
+
+        next()
+ 
+    } catch (error) {
+        console.log(error)
+    }
 }
 export{
     admin,
     crear,
     guardar,
-    agregarImagen
+    agregarImagen,
+    almacenarImagen
 }
