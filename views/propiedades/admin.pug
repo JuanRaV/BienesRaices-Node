@@ -22,7 +22,7 @@ block contenido
 
                                 //- INFO DE LA PROPIEDAD
                                 div(class="sm:w-2/4 md:w-3/6 lg:w-4/6 space-y-3") 
-                                    a(href="#" class="block text-2xl font-extrabold text-teal-600 truncate ")= propiedad.titulo
+                                    a(href=`/propiedad/${propiedad.id}` class="block text-2xl font-extrabold text-teal-600 truncate ")= propiedad.titulo
 
                                     p(class="text-sm text-black font-bold")= propiedad.categoria.nombre
 
