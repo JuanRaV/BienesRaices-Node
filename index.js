@@ -3,6 +3,8 @@ import csrf from 'csurf'
 import cookieParser from "cookie-parser";
 import usuarioRoutes from "./routes/usuarioRoutes.js";
 import propiedadesRoutes from "./routes/propiedadesRoutes.js";
+import appRoutes from "./routes/appRoutes.js"
+import apiRoutes from './routes/apiRoutes.js'
 import db from "./config/db.js";
 
 //Creamos la app
@@ -34,9 +36,11 @@ app.set('views','./views')
 app.use(express.static('public')) //Node carga las vistas, imagenes, etc
 
 //Routing
+app.use('/',appRoutes)
 app.use('/auth',usuarioRoutes); //Use busca todas las rutas que inicien con una diagonal, a excepcion de get que busca una ruta especifica
 app.use('/',propiedadesRoutes)
- 
+app.use('/api',apiRoutes)
+
 //Definir un puerto y arrancar el proyecto
 const port = process.env.PORT || 3000;
 
