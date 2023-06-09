@@ -70,6 +70,10 @@ const autenticar = async(req,res)=>{
     }).redirect('/mis-propiedades')
 }
 
+const cerrarSesion=(req,res)=>{
+    return res.clearCookie('_token').status(200).redirect('/auth/login')
+}
+
 const formularioRegistro = (req,res)=>{
     res.render('auth/registro',{//Renderiza el login
         pagina:'Crear Cuenta',
@@ -282,5 +286,6 @@ export {
     resetPassword,
     comprobarToken,
     nuevoPassword,
-    autenticar
+    autenticar,
+    cerrarSesion
 };
